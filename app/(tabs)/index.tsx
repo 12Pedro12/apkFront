@@ -1,98 +1,119 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
+import { Image, TouchableOpacity, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Link } from 'expo-router';
+import {LineChart} from 'react-native-chart-kit';
 
-export default function HomeScreen() {
+export default function InicioScreen() {
+  // Datos de ejemplo, puedes reemplazarlos con los datos de tu API
+  const totalPrestado = 5000;
+  const totalCobrado = 3200;
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
+    <ScrollView style={styles.container}>
+      {/* Encabezado con logo */}
+      <ThemedView style={styles.header}>
         <Image
           source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
+          style={styles.logo}
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
+        <ThemedText type="title">Bienvenido a PréstamosApp</ThemedText>
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
+      {/* Secciones principales */}
+      <ThemedView style={styles.sectionContainer}>
+        <ThemedText type="subtitle">Acciones rápidas</ThemedText>
+
+        <TouchableOpacity style={styles.card}>
+          <Link href="/clientes">
+            <ThemedText type="defaultSemiBold">Ver Clientes</ThemedText>
+          </Link>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.card}>
+          <Link href="/prestamos">
+            <ThemedText type="defaultSemiBold">Crear Préstamo</ThemedText>
+          </Link>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.card}>
+          <Link href="/pagos">
+            <ThemedText type="defaultSemiBold">Registrar Pago</ThemedText>
+          </Link>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.card}>
+          <Link href="/reportes">
+            <ThemedText type="defaultSemiBold">Ver Reportes</ThemedText>
+          </Link>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.card}>
+          <Link href="/cobradores">
+            <ThemedText type="defaultSemiBold">Ver cobradores</ThemedText>
+          </Link>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.card}>
+          <Link href="/roles">
+            <ThemedText type="defaultSemiBold">Ver roles</ThemedText>
+          </Link>
+        </TouchableOpacity>
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
+      {/* Gráfico */}
+      <ThemedView style={styles.chartContainer}>
+        <LineChart
+          data={{
+            labels: ['Prestado', 'Cobrado'],
+            datasets: [
+              {
+                data: [totalPrestado, totalCobrado],
+              },
+            ],
+          }}
+          width={Dimensions.get('window').width - 32} // ancho del gráfico
+          height={220}
+          chartConfig={{
+            backgroundColor: '#A1CEDC',
+            backgroundGradientFrom: '#A1CEDC',
+            backgroundGradientTo: '#1D3D47',
+            decimalPlaces: 0,
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: { borderRadius: 16 },
+            propsForDots: { r: '6', strokeWidth: '2', stroke: '#fff' },
+          }}
+          style={{ borderRadius: 16 }}
+        />
       </ThemedView>
-    </ParallaxScrollView>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#F9F9F9',
+  },
+  header: {
     alignItems: 'center',
-    gap: 8,
+    marginBottom: 24,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  logo: {
+    width: 150,
+    height: 150,
+    marginBottom: 12,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  sectionContainer: {
+    gap: 12,
+  },
+  card: {
+    padding: 16,
+    backgroundColor: '#A1CEDC',
+    borderRadius: 12,
+    marginBottom: 12,
+    alignItems: 'center',
+  },
+  chartContainer: { 
+    marginBottom: 24, 
+    alignItems: 'center' 
   },
 });
