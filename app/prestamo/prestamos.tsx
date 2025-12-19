@@ -9,8 +9,8 @@ type Prestamo = {
   fecha_inicio: string;
   fecha_fin: string;
   estado: string;
-  client?: string;
-  cobrador?: string;
+  client: string;
+  cobrador: string;
 };
 
 export default function Prestamos() {
@@ -22,7 +22,13 @@ export default function Prestamos() {
       const response = await fetch('http://192.168.100.115:8000/administrativo/prestamo/');
       if (!response.ok) throw new Error('Error al obtener préstamos');
       const data = await response.json();
-      setPrestamos(data);
+      // Asegurarnos que client y cobrador existan
+      const formattedData = data.map((p: any) => ({
+        ...p,
+        client: p.client || 'Sin cliente',
+        cobrador: p.cobrador || 'Sin cobrador',
+      }));
+      setPrestamos(formattedData);
     } catch (error) {
       console.log(error);
       Alert.alert('Error', 'No se pudieron cargar los préstamos');
@@ -31,25 +37,34 @@ export default function Prestamos() {
     }
   };
 
-  useEffect(() => { fetchPrestamos(); }, []);
+  useEffect(() => {
+    fetchPrestamos();
+  }, []);
 
   const renderItem = ({ item }: { item: Prestamo }) => (
     <View style={styles.itemContainer}>
       <Text style={styles.title}>Préstamo ID: {item.id}</Text>
       <Text>Monto: {item.monto}</Text>
-      <Text>Tasa Interés: {item.tasa_interes}%</Text>
+      <Text>Tasa de Interés: {item.tasa_interes}%</Text>
       <Text>Plazo: {item.plazo} meses</Text>
       <Text>Inicio: {item.fecha_inicio}</Text>
       <Text>Fin: {item.fecha_fin}</Text>
       <Text>Estado: {item.estado}</Text>
-      {item.client && <Text>Cliente: {item.client}</Text>}
-      {item.cobrador && <Text>Cobrador: {item.cobrador}</Text>}
+      <Text>Cliente: {item.client}</Text>
+      <Text>Cobrador: {item.cobrador}</Text>
     </View>
   );
 
   if (loading) return (
     <View style={styles.loadingContainer}>
       <ActivityIndicator size="large" color="#1e90ff" />
+      <Text style={{ marginTop: 10 }}>Cargando préstamos...</Text>
+    </View>
+  );
+
+  if (prestamos.length === 0) return (
+    <View style={styles.loadingContainer}>
+      <Text style={{ color: '#fff', fontSize: 16 }}>No hay préstamos registrados.</Text>
     </View>
   );
 
@@ -64,8 +79,18 @@ export default function Prestamos() {
 }
 
 const styles = StyleSheet.create({
-  listContainer: { padding: 20, backgroundColor: '#516566ff'},
-  itemContainer: { backgroundColor: '#f0f0f0', padding: 15, borderRadius: 8, marginBottom: 12 },
+  listContainer: { padding: 20, backgroundColor: '#516566ff', flexGrow: 1 },
+  itemContainer: {
+    backgroundColor: '#f0f0f0',
+    padding: 15,
+    borderRadius: 8,
+    marginBottom: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 2,
+  },
   title: { fontWeight: 'bold', fontSize: 16, marginBottom: 5 },
   loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
 });
