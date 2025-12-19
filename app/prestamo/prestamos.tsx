@@ -21,14 +21,19 @@ export default function Prestamos() {
     try {
       const response = await fetch('http://192.168.100.115:8000/administrativo/prestamo/');
       if (!response.ok) throw new Error('Error al obtener préstamos');
+
       const data = await response.json();
-      // Asegurarnos que client y cobrador existan
-      const formattedData = data.map((p: any) => ({
-        ...p,
-        client: p.client || 'Sin cliente',
-        cobrador: p.cobrador || 'Sin cobrador',
-      }));
-      setPrestamos(formattedData);
+      setPrestamos(data.map((p: any) => ({
+        id: p.id,
+        monto: p.monto,
+        tasa_interes: p.tasa_interes,
+        plazo: p.plazo,
+        fecha_inicio: p.fecha_inicio ?? 'N/A',
+        fecha_fin: p.fecha_fin ?? 'N/A',
+        estado: p.estado,
+        client: p.client,
+        cobrador: p.cobrador
+      })));
     } catch (error) {
       console.log(error);
       Alert.alert('Error', 'No se pudieron cargar los préstamos');
@@ -37,9 +42,7 @@ export default function Prestamos() {
     }
   };
 
-  useEffect(() => {
-    fetchPrestamos();
-  }, []);
+  useEffect(() => { fetchPrestamos(); }, []);
 
   const renderItem = ({ item }: { item: Prestamo }) => (
     <View style={styles.itemContainer}>
@@ -58,7 +61,7 @@ export default function Prestamos() {
   if (loading) return (
     <View style={styles.loadingContainer}>
       <ActivityIndicator size="large" color="#1e90ff" />
-      <Text style={{ marginTop: 10 }}>Cargando préstamos...</Text>
+      <Text style={{ marginTop: 10, color: '#fff' }}>Cargando préstamos...</Text>
     </View>
   );
 

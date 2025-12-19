@@ -50,9 +50,20 @@ export default function CrearCobrador() {
 }
 
 const styles = StyleSheet.create({
-  container: { flexGrow: 1, justifyContent: 'center', alignItems: 'center', padding: 20, backgroundColor: '#516566ff', },
+
+  container:
+   {
+    flexGrow: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    padding: 20, 
+    backgroundColor: '#d1d1d1ff',
+  },
+
   title: { fontSize: 24, marginBottom: 20, fontWeight: 'bold' },
-  input: { width: '100%', borderWidth: 1, borderColor: '#ccc', borderRadius: 8, padding: 10, marginBottom: 12 },
-  button: { backgroundColor: '#1e90ff', paddingVertical: 12, paddingHorizontal: 25, borderRadius: 8, marginTop: 10 },
+  input: { width: '100%', borderWidth: 1, borderColor: '#46954eff',
+     borderRadius: 8, padding: 10, marginBottom: 12 },
+  button: { backgroundColor:  '#46954eff',
+  paddingVertical: 12, paddingHorizontal: 25, borderRadius: 8, marginTop: 10 },
   buttonText: { color: 'white', fontWeight: 'bold', textAlign: 'center' },
 });

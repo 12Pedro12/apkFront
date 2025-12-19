@@ -1,28 +1,26 @@
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
-
-import { IconSymbol } from '@/components/ui/icon-symbol';
+import { ThemedText } from '@/components/themed-text';
+import { ThemedView } from '@/components/themed-view';
 import { InputPropio } from '@/src/componentes/InputPropio';
 import { TextPropio } from '@/src/componentes/TextPropio';
 import { useRouter } from 'expo-router';
 import React, { useState } from "react";
+import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 export default function TabTwoScreen() {
   const [usuario, setUsuario] = useState("");
   const router = useRouter();
 
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#f5eaeaff', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#292222ff"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
-      }
-    >
+    
+    <ScrollView style={styles.container}>
+      {/* Encabezado con logo */}
+        <ThemedView style={styles.header}>
+            <Image
+                source={require('@/assets/images/prestamo_app_A_P_3.jpg')}
+                style={styles.logo}
+              />
+            <ThemedText type="title">PréstamosApp</ThemedText>
+        </ThemedView>
       {/* CONTENEDOR SUPERIOR */}
       <View style={styles.container}>
         <TextPropio tamano={30} color="#ffffff" negrita>
@@ -77,7 +75,7 @@ export default function TabTwoScreen() {
           </TextPropio>
         </TouchableOpacity>
       </View>
-    </ParallaxScrollView>
+    </ScrollView>
   );
 }
 
@@ -85,13 +83,23 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     gap: 30,
-    backgroundColor: '#516566ff',
+    backgroundColor: '#9e9e9eff',
   },
   headerImage: {
-    color: '#808080',
+    color: '#9e9e9eff',
     bottom: -90,
     left: -35,
     position: 'absolute',
+  },
+  header: {
+    alignItems: 'center',
+    marginBottom: 24,
+    backgroundColor: '#9e9e9eff',
+  },
+  logo: {
+    width: 450,
+    height: 250,
+    marginBottom: 12,
   },
   actionButton: {
     backgroundColor: '#ffffffff', // ⬅️ fondo oscuro

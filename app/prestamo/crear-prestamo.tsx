@@ -11,8 +11,8 @@ export default function CrearPrestamo() {
   const [tasaInteres, setTasaInteres] = useState('');
   const [plazo, setPlazo] = useState('');
   const [estado, setEstado] = useState<'Activo' | 'Pagado' | 'Vencido'>('Activo');
-  const [clientId, setClientId] = useState<number | null>(null);
-  const [cobradorId, setCobradorId] = useState<number | null>(null);
+  const [clientId, setClientId] = useState<number | undefined>(undefined);
+  const [cobradorId, setCobradorId] = useState<number | undefined>(undefined);
 
   const [fechaInicio, setFechaInicio] = useState(new Date());
   const [fechaFin, setFechaFin] = useState(new Date());
@@ -35,7 +35,7 @@ export default function CrearPrestamo() {
   }, []);
 
   const handleCrearPrestamo = async () => {
-    if (!monto || !tasaInteres || !plazo || !clientId || !cobradorId) {
+    if (!monto || !tasaInteres || !plazo || clientId === undefined || cobradorId === undefined) {
       Alert.alert('Error', 'Todos los campos son obligatorios');
       return;
     }
@@ -48,21 +48,18 @@ export default function CrearPrestamo() {
           monto,
           tasa_interes: tasaInteres,
           plazo,
-          fecha_inicio: fechaInicio.toISOString().split('T')[0],
-          fecha_fin: fechaFin.toISOString().split('T')[0],
           estado,
           client_id: clientId,
-          cobrador_id: cobradorId
+          cobrador_id: cobradorId,
+          fecha_inicio_write: fechaInicio.toISOString().split('T')[0],
+          fecha_fin_write: fechaFin.toISOString().split('T')[0]
         }),
       });
 
       if (response.ok) {
         Alert.alert('Éxito', 'Préstamo creado correctamente');
-        setMonto('');
-        setTasaInteres('');
-        setPlazo('');
-        setClientId(null);
-        setCobradorId(null);
+        setMonto(''); setTasaInteres(''); setPlazo('');
+        setClientId(undefined); setCobradorId(undefined);
       } else {
         const data = await response.json();
         Alert.alert('Error', JSON.stringify(data));
@@ -81,7 +78,6 @@ export default function CrearPrestamo() {
       <TextInput placeholder="Tasa de Interés (%)" style={styles.input} value={tasaInteres} onChangeText={setTasaInteres} keyboardType="numeric" />
       <TextInput placeholder="Plazo (meses)" style={styles.input} value={plazo} onChangeText={setPlazo} keyboardType="numeric" />
 
-      {/* Fecha Inicio */}
       <TouchableOpacity style={styles.dateButton} onPress={() => setShowInicioPicker(true)}>
         <Text>Fecha Inicio: {fechaInicio.toLocaleDateString()}</Text>
       </TouchableOpacity>
@@ -97,7 +93,6 @@ export default function CrearPrestamo() {
         />
       )}
 
-      {/* Fecha Fin */}
       <TouchableOpacity style={styles.dateButton} onPress={() => setShowFinPicker(true)}>
         <Text>Fecha Fin: {fechaFin.toLocaleDateString()}</Text>
       </TouchableOpacity>
@@ -113,20 +108,17 @@ export default function CrearPrestamo() {
         />
       )}
 
-      {/* Cliente */}
-      <Picker selectedValue={clientId} onValueChange={(value) => setClientId(value)}>
-        <Picker.Item label="Selecciona un cliente" value={null} />
+      <Picker selectedValue={clientId} onValueChange={setClientId}>
+        <Picker.Item label="Selecciona un cliente" value={undefined} />
         {clientes.map(c => <Picker.Item key={c.id} label={c.nombre} value={c.id} />)}
       </Picker>
 
-      {/* Cobrador */}
-      <Picker selectedValue={cobradorId} onValueChange={(value) => setCobradorId(value)}>
-        <Picker.Item label="Selecciona un cobrador" value={null} />
+      <Picker selectedValue={cobradorId} onValueChange={setCobradorId}>
+        <Picker.Item label="Selecciona un cobrador" value={undefined} />
         {cobradores.map(c => <Picker.Item key={c.id} label={c.nombre} value={c.id} />)}
       </Picker>
 
-      {/* Estado */}
-      <Picker selectedValue={estado} onValueChange={(value) => setEstado(value)}>
+      <Picker selectedValue={estado} onValueChange={setEstado}>
         <Picker.Item label="Activo" value="Activo" />
         <Picker.Item label="Pagado" value="Pagado" />
         <Picker.Item label="Vencido" value="Vencido" />
