@@ -1,8 +1,9 @@
-import { Image, TouchableOpacity, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Link } from 'expo-router';
-import {LineChart} from 'react-native-chart-kit';
+import { Dimensions, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { LineChart } from 'react-native-chart-kit';
+
 
 export default function InicioScreen() {
   // Datos de ejemplo, puedes reemplazarlos con los datos de tu API
@@ -16,7 +17,8 @@ export default function InicioScreen() {
           source={require('@/assets/images/partial-react-logo.png')}
           style={styles.logo}
         />
-        <ThemedText type="title">Bienvenido a PréstamosApp</ThemedText>
+        <ThemedText type="title">PréstamosApp</ThemedText>
+      
       </ThemedView>
 
       {/* Secciones principales */}
@@ -25,37 +27,33 @@ export default function InicioScreen() {
 
         <TouchableOpacity style={styles.card}>
           <Link href="/clientes">
-            <ThemedText type="defaultSemiBold">Ver Clientes</ThemedText>
+            <ThemedText type="defaultSemiBold">Clientes</ThemedText>
           </Link>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.card}>
           <Link href="/prestamos">
-            <ThemedText type="defaultSemiBold">Crear Préstamo</ThemedText>
+            <ThemedText type="defaultSemiBold">Préstamo</ThemedText>
           </Link>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.card}>
           <Link href="/pagos">
-            <ThemedText type="defaultSemiBold">Registrar Pago</ThemedText>
+            <ThemedText type="defaultSemiBold">Pago</ThemedText>
           </Link>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.card}>
           <Link href="/reportes">
-            <ThemedText type="defaultSemiBold">Ver Reportes</ThemedText>
+            <ThemedText type="defaultSemiBold">Reportes</ThemedText>
           </Link>
         </TouchableOpacity>
         <TouchableOpacity style={styles.card}>
           <Link href="/cobradores">
-            <ThemedText type="defaultSemiBold">Ver cobradores</ThemedText>
+            <ThemedText type="defaultSemiBold">cobradores</ThemedText>
           </Link>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.card}>
-          <Link href="/roles">
-            <ThemedText type="defaultSemiBold">Ver roles</ThemedText>
-          </Link>
-        </TouchableOpacity>
+        
       </ThemedView>
       {/* Gráfico */}
       <ThemedView style={styles.chartContainer}>
@@ -91,11 +89,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#F9F9F9',
+    backgroundColor: '#0a0707ff',
   },
   header: {
     alignItems: 'center',
     marginBottom: 24,
+  },
+  headerButton:{
+    padding: 12,
+    backgroundColor: '#a1cedc',
+    borderRadius: 8,
+  },
+  content: {
+    marginTop: 8,
+    gap: 8,
   },
   logo: {
     width: 150,

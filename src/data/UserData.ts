@@ -1,7 +1,7 @@
 import { User } from "../entidad/User";
 import { http } from "./http";
 
-export const RolData = {
+export const UserData = {
     getAll: async(): Promise<User[]> => http("administrativo/users/"),
     
     show: async(id: number): Promise<User> => http('administrativo/users/${id}/'),

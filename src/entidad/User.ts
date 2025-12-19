@@ -1,8 +1,7 @@
 export interface User{
     id : number,
     username : string,
-    password : string,
-    foto: File,
     correo: string,
+    foto?: string,
     rol_id: number
 }

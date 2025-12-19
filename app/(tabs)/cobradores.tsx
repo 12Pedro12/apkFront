@@ -1,10 +1,3 @@
-import React from "react";
-import { Text, View } from "react-native";
+import { CobradorScreen } from "@/src/presentacion/CobradorScreen";
 
-export default function Prueba(){
-    return(
-        <View >
-            <Text> Hola mi amor</Text>
-        </View>
-    );
-}
+export default CobradorScreen;
