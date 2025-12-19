@@ -26,30 +26,30 @@ export default function InicioScreen() {
         <ThemedText type="subtitle">Acciones rápidas</ThemedText>
 
         <TouchableOpacity style={styles.card}>
-          <Link href="/clientes">
+          <Link href="/cliente/clientes">
             <ThemedText type="defaultSemiBold">Clientes</ThemedText>
           </Link>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.card}>
-          <Link href="/prestamos">
+          <Link href="/prestamo/prestamos">
             <ThemedText type="defaultSemiBold">Préstamo</ThemedText>
           </Link>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.card}>
-          <Link href="/pagos">
+          <Link href="/pago/pagos">
             <ThemedText type="defaultSemiBold">Pago</ThemedText>
           </Link>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.card}>
-          <Link href="/reportes">
+          <Link href="/reporte/reportes">
             <ThemedText type="defaultSemiBold">Reportes</ThemedText>
           </Link>
         </TouchableOpacity>
         <TouchableOpacity style={styles.card}>
-          <Link href="/cobradores">
+          <Link href="/cobrador/cobradores">
             <ThemedText type="defaultSemiBold">cobradores</ThemedText>
           </Link>
         </TouchableOpacity>
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#0a0707ff',
+    backgroundColor: '#31696cff',
   },
   header: {
     alignItems: 'center',
